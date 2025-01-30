@@ -1,0 +1,21 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+<div>
+    <h3 style="color: red">{{error}}</h3>
+</div>
+
+    <h1 style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Welcome!</h1>
+
+    <hr> 
+    <pre style="text-align: center;">Welcome to our website! We are glad to have you guys join us for our big day!
+
+Please fill out an information form, so we can send an invite to you
+(if filled out already: <a href="/validation">click here to view other tabs</a>)
+    </pre>
+    <div style="text-align: center;">
+        {% load static %} <img src='{% static 'party/media/save-the-date-pic.jpg' %}' width="400px" style="vertical-align:middle" alt="home" />
+        {% load static %} <img src='{% static 'party/media/hug-pic.jpg' %}' width="400px" style="vertical-align:middle" alt="home" />
+    </div>
+
+{% endblock %}
