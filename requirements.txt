@@ -4,11 +4,7 @@ django-crispy-forms==1.14.0
 django-phonenumber-field==8.0.0
 email_validator==2.2.0
 gunicorn==23.0.0
-numpy==1.26.4
-pandas==1.4.1
 phonenumbers==8.13.53
 psycopg2-binary==2.9.10
-pyspark==3.5.3
 python-dotenv==1.0.1
-torch==2.2.1
 whitenoise==6.8.2
