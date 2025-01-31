@@ -3,9 +3,12 @@ from django.http import HttpResponse
 from django.utils import timezone
 from django.template import loader
 from .forms import GuestInfoForm, EmailValidationForm
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login, authenticate
 from django.contrib import messages
+from .models import guestuser
+
+User = get_user_model()
 
 # Home page function
 def home(request):
@@ -20,12 +23,15 @@ def validation(request):
     if request.method == 'POST':
         email = request.POST['email']
         if User.objects.filter(email__iexact=email).exists():
-            user = authenticate(request, email = email)
+            user = User.objects.get(email = email)
 
-            if user is not None:
+            if user.is_validated:
                 auth_login(request, user)
                 return redirect("/home")
-            
+        
+            if user.is_superuser:
+                return redirect('/home')
+
         else:
             messages.error(request, "Do we know you?")
             return redirect("/validation")
@@ -36,13 +42,25 @@ def validation(request):
 
 def guest_information(request):
     if request.method == "POST":
-        form = GuestInfoForm()
+        form = GuestInfoForm(request.POST)
+
         if form.is_valid():
             first = form.cleaned_data['first_name']
             last = form.cleaned_data['last_name']
             email = form.cleaned_data['email']
             number = form.cleaned_data['phone_number']
             know = form.cleaned_data['knows']
+
+            print(first, last, email, number, know)
+
+            guestuser.objects.create(first_name = first, last_name = last, email = email, phone_number = number, knows = know)
+            messages.success(request, "Please wait a day to be verfied")
+
+            return redirect('/home')
+        else:
+            print(form.errors)
+            messages.error(request, "Something went wrong")
+
     else:
         form = GuestInfoForm()
     

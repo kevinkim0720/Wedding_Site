@@ -2,6 +2,13 @@
 
 {% block content %}
 
+{% for message in messages %}
+        <div class="alert alert-danger">
+            <a class="close" href="#" data-dismiss="alert">x</a>
+                {{message}}
+        </div>
+    {% endfor %}
+
 <div>
     <p>Hello! Please fill out this form to see our story, view the schedule, and rsvp online (if you want)</p>
     <form method="POST" class="form-group">

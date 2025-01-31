@@ -83,11 +83,13 @@
    <nav class="main-nav">
     <ul>
         <li><a href="/">Welcome</a></li>
-        {% if user.is_valid %}
+        {% if user.is_validated %}
         <li><a href="/kamy">Our Story</a></li>
         {% endif %}
+        {% if not user.is_validated %}
         <li><a href="/info_form">Your Information</a></li>
-        {% if user.is_valid %}
+        {% endif %}
+        {% if user.is_validated %}
         <li><a href="/info">Schedule</a></li>
         <li><a href="/rsvp">RSVP</a></li>
         {% endif %}

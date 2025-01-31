@@ -1,9 +1,13 @@
 {% extends 'party/base.html' %}
 
 {% block content %}
-<div>
-    <h3 style="color: red">{{error}}</h3>
-</div>
+
+{% for message in messages %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">x</a>
+                {{message}}
+        </div>
+    {% endfor %}
 
     <h1 style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Welcome!</h1>
 

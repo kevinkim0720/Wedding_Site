@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'crispy_forms',
     'party.apps.PartyConfig',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -137,4 +138,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-AUTH_USER_MODEL = 'party.User'
+AUTH_USER_MODEL = 'party.guestuser'
+
+AUTHENTICATION_BACKENDS = [
+    'party.backends.EmailAuthBackend',  # Add this line to use the custom backend
+]

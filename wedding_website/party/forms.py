@@ -7,7 +7,7 @@ class GuestInfoForm(forms.Form):
     first_name = forms.CharField(required=True)
     last_name = forms.CharField(required=True)
     email = forms.EmailField(required=True)
-    phone_number = PhoneNumberField()
+    phone_number = PhoneNumberField(region="US")
     knows = forms.ChoiceField(choices = picks, required=True, help_text="Do you know the Bride, Groom, or both?")
 
 
