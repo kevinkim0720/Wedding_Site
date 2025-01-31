@@ -83,7 +83,14 @@ WSGI_APPLICATION = 'wedding_website.wsgi.application'
 # https://docs.djangoproject.com/en/4.0/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.environ.get('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': os.environ.get('POSTGRESQL_DB_NAME'),
+        'USER': os.environ.get('POSTGRESQL_DB_USER'),
+        'PASSWORD': os.environ.get('POSTGRESQL_DB_PASSWORD'),
+        'HOST': os.environ.get('POSTGRESQL_DB_HOST'),  # From RDS
+        'PORT': '5432', 
+    }
 }
  
 
