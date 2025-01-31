@@ -1,0 +1,19 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+
+{% for message in messages %}
+        <div class="alert alert-success">
+            <a class="close" href="#" data-dismiss="alert">x</a>
+                {{message}}
+        </div>
+    {% endfor %}
+
+
+<pre style="text-align: center;">Thank you! Your records have been submitted. 
+
+    To return home, click the welcome button or  <a href="/validation">click here to go to home page </a>
+    If not, feel free to click on the other pages
+</pre>
+
+{% endblock %}

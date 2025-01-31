@@ -63,3 +63,18 @@ class guestuser(AbstractBaseUser):
         return self.email
     
 
+class invitation_info(models.Model):
+    email = models.ForeignKey(guestuser, on_delete=models.CASCADE, related_name="invitations")
+
+    invitation = models.BooleanField(default=False, help_text="Check box for physical invitation")  # Check if invitation is selected
+    address = models.CharField(max_length=255, null=True, blank=True, help_text="Include Apt # if applicable")  # Only filled if invitation is checked
+    city = models.CharField(max_length=100, null=True, blank=True)  # Only filled if invitation is checked
+    state = models.CharField(max_length=100, null=True, blank=True)  # Only filled if invitation is checked
+    zip_code = models.CharField(max_length=20, null=True, blank=True)  # Only filled if invitation is checked
+    group_type = models.CharField(max_length=20, choices=group_picks, null=True, blank=True)
+    number_of_guests = models.IntegerField(null=True, blank=True)  # Number of guests (always required)
+    guest_names = models.CharField(null=True, help_text= "Please provide all first and last names seperated by comma(s)")
+    
+    def __str__(self):
+        return f"Invitation for {self.email}"
+

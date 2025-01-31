@@ -143,3 +143,5 @@ AUTH_USER_MODEL = 'party.guestuser'
 AUTHENTICATION_BACKENDS = [
     'party.backends.EmailAuthBackend',  # Add this line to use the custom backend
 ]
+
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
