@@ -25,36 +25,33 @@ class EmailValidationForm(forms.Form):
 class RsvpForm(forms.ModelForm):
     class Meta:
         model = invitation_info
-        fields = ['invitation', 'address', 'city', 'state', 'zip_code', 'group_type', 'number_of_guests', 'guest_names', 'invite']
+        fields = ['name', 'attend', 'group_type', 'number_of_guests', 'guest_names', 'invite']
+        labels = {
+            'attend': 'Will Attend',
+            'number_of_guests': 'Family size',
+            'invite': 'Check for physical Invite if not received',
+        }
 
 
     def clean(self):
         cleaned_data = super().clean()
-        invitation = cleaned_data.get("invitation")
-        address = cleaned_data.get("address")
-        city = cleaned_data.get('city')
-        state = cleaned_data.get('state')
-        zip_code = cleaned_data.get('zip_code')
+        name = cleaned_data.get("name")
+        attend = cleaned_data.get("attend")
         group_type = cleaned_data.get("group_type")
         number_of_guests = cleaned_data.get("number_of_guests")
         guest_names = cleaned_data.get("guest_names")
         invite = cleaned_data.get("invite")
-
-        if invitation and not address:
-            raise forms.ValidationError("Address is required when Invitation is checked.")
-        if invitation and not city:
-            raise forms.ValidationError("City is required when Invitation is checked.")
-        if invitation and not state:
-            raise forms.ValidationError("State is required when Invitation is checked.")
-        if invitation and not zip_code:
-            raise forms.ValidationError("Zip Code is required when Invitation is checked.")
         
-        if group_type == 'other' and not number_of_guests:
-            raise forms.ValidationError("Number of guests is required if 'Other' is selected.")
-        if group_type == 'family' and not number_of_guests:
-            raise forms.ValidationError("Number of guests is required for self or family.")
-        if group_type != 'self' and not guest_names:
-            raise forms.ValidationError("Guest names is required for family or other.")
+         # Rule 1: If group_type is "Just Myself", force number_of_guests to 0
+        if group_type == "self":
+            cleaned_data['number_of_guests'] = 0
+            cleaned_data['guest_names'] = None
+
+        # Rule 2: If number_of_guests > 0, guest_names is required
+        if number_of_guests > 0:
+            if not guest_names:
+                self.add_error('guest_names', "Please enter guest names if you're bringing guests.")
+
 
         
         return cleaned_data

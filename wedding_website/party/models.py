@@ -9,7 +9,7 @@ class GuestUserManager(BaseUserManager):
     """
     Custom manager for GuestUser without passwords.
     """
-    def create_user(self, email, first_name, last_name, phone_number=None, knows=None):
+    def create_user(self, email, first_name, last_name, phone_number=None, knows=None, code =None):
         """
         Create and return a regular user without a password.
         """
@@ -21,12 +21,13 @@ class GuestUserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             phone_number=phone_number,
-            knows=knows
+            knows=knows,
+            code = code
         )
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, first_name, last_name, phone_number=None, knows=None):
+    def create_superuser(self, email, first_name, last_name, phone_number=None, knows=None, code=None):
         """
         Create and return a superuser without a password.
         """
@@ -35,7 +36,8 @@ class GuestUserManager(BaseUserManager):
             first_name=first_name,
             last_name=last_name,
             phone_number=phone_number,
-            knows=knows
+            knows=knows,
+            code=code
         )
         user.is_staff = True
         user.is_superuser = True
@@ -55,25 +57,23 @@ class guestuser(AbstractBaseUser):
     phone_number = PhoneNumberField(default='+1234567890', blank=True, null=True)
     knows = models.CharField(max_length=1, choices=picks)
     is_validated = models.BooleanField(default=False)
+    code = models.CharField(null=True)
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number', 'knows']
+    REQUIRED_FIELDS = ['first_name', 'last_name', 'phone_number', 'knows', 'code']
 
     def __str__(self):
         return self.email
     
 
 class invitation_info(models.Model):
-    email = models.ForeignKey(guestuser, on_delete=models.CASCADE, related_name="invitations")
+    email = models.ForeignKey(guestuser, on_delete=models.CASCADE, related_name="invitation")
 
-    invitation = models.BooleanField(default=False, help_text="Check box for physical invitation")  # Check if invitation is selected
-    address = models.CharField(max_length=255, null=True, blank=True, help_text="Include Apt # if applicable")  # Only filled if invitation is checked
-    city = models.CharField(max_length=100, null=True, blank=True)  # Only filled if invitation is checked
-    state = models.CharField(max_length=100, null=True, blank=True)  # Only filled if invitation is checked
-    zip_code = models.CharField(max_length=20, null=True, blank=True)  # Only filled if invitation is checked
+    name = models.CharField(null=True)
+    attend = models.BooleanField(default=False)
     group_type = models.CharField(max_length=20, choices=group_picks, null=True, blank=True)
     number_of_guests = models.IntegerField(null=True, blank=True)  # Number of guests (always required)
-    guest_names = models.CharField(null=True, help_text= "Please provide all first and last names seperated by comma(s)")
+    guest_names = models.CharField(null=True, blank = True, help_text= "Please provide all first and last names seperated by comma(s)", )
     invite = models.BooleanField(default=False, help_text="Do you want a physical invitation?")
     
     def __str__(self):

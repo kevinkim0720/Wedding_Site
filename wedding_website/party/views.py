@@ -59,16 +59,18 @@ def guest_information(request):
         form = GuestInfoForm(request.POST)
 
         if form.is_valid():
-            guestuser.objects.create(
-            first_name = form.cleaned_data['first_name'],
-            last_name = form.cleaned_data['last_name'],
-            email = form.cleaned_data['email'],
-            phone_number = form.cleaned_data['phone_number'],
-            knows = form.cleaned_data['knows']
-            )
+            if form.cleaned_data['code'] == '9202025amykevin':
+                guestuser.objects.create(
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name'],
+                email = form.cleaned_data['email'],
+                phone_number = form.cleaned_data['phone_number'],
+                knows = form.cleaned_data['knows'],
+                is_validated = True
+                )
 
-            messages.success(request, "Please wait a day to be verfied")
-            return redirect('/home')
+                messages.success(request, "Please wait a day to be verfied")
+                return redirect('/home')
         
         else:
             print(form.errors)
@@ -89,18 +91,19 @@ def story_protected(request):
 # Cannot see rsvp page unless email has been verified
 @require_validation
 def rsvp_protected(request):
+    if hasattr(request.user, 'invitations'):
+        return render(request, 'party/already_submitted.html')  # Prevent duplicate
+    
     if request.method == 'POST':
         form = RsvpForm(request.POST)
         if form.is_valid():
             email = request.user.email
-            invite = form.cleaned_data.get("invitation")
-            address = form.cleaned_data.get("address")
-            city = form.cleaned_data.get('city')
-            state = form.cleaned_data.get('state')
-            zip_code = form.cleaned_data.get('zip_code')
+            name = form.cleaned_data.get("name")
+            attend = form.cleaned_data.get("attend")
             group_type = form.cleaned_data.get("group_type")
             number_of_guests = form.cleaned_data.get("guest_count")
             guest_names = form.cleaned_data.get('guest_names')
+            invite = form.cleaned_data.get("invite")
             
             user_email = guestuser.objects.get(email=email)
 

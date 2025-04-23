@@ -1,84 +1,60 @@
 {% extends 'party/base.html' %}
 {% block content %}
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitation Form</title>
-    <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            function toggleFields() {
-                var checkbox = document.getElementById("id_invitation");
-    
-                if (!checkbox) {
-                    console.error("Checkbox with ID 'id_invitation' not found!");
-                    return;
-                }
-    
-                var addressField = document.getElementById("id_address")?.parentElement;
-                var groupTypeField = document.getElementById("id_group_type")?.parentElement;
-                var guestsField = document.getElementById("id_number_of_guests")?.parentElement;
-                var cityField = document.getElementById("id_city")?.parentElement;
-                var stateField = document.getElementById("id_state")?.parentElement;
-                var zipCodeField = document.getElementById("id_zip_code")?.parentElement;
-                var guestnamesField = document.getElementById("id_guest_names")?.parentElement;
-                var checkbox2Field = document.getElementById("id_invite")?.parentElement; // Second checkbox
-    
-                function showElement(element) {
-                    if (element) element.style.display = "block";
-                }
-    
-                function hideElement(element) {
-                    if (element) element.style.display = "none";
-                }
-    
-                // Debugging: Log checkbox state
-                console.log("Checkbox checked:", checkbox.checked);
-    
-                if (checkbox.checked) {
-                    showElement(addressField);
-                    showElement(cityField);
-                    showElement(stateField);
-                    showElement(zipCodeField);
-                    hideElement(checkbox2Field); // Hide the second checkbox
-                    hideElement(groupTypeField);
-                    hideElement(guestsField);
-                    hideElement(guestnamesField);
-                } else {
-                    hideElement(addressField);
-                    hideElement(cityField);
-                    hideElement(stateField);
-                    hideElement(zipCodeField);
-                    showElement(checkbox2Field); // Show the second checkbox
-                    showElement(groupTypeField);
-                    showElement(guestsField);
-                    showElement(guestnamesField);
-                }
+<title>RSVP</title>
+
+<h2>RSVP Form</h2>
+<form method="post">
+    {% csrf_token %}
+    <div>{{ form.name.label_tag }} {{ form.name }}</div>
+    <div>{{ form.attend.label_tag }} {{ form.attend }}</div>
+    <div>{{ form.group_type.label_tag }} {{ form.group_type }}</div>
+    <div>{{ form.number_of_guests.label_tag }} {{ form.number_of_guests }}</div>
+    <div>{{ form.guest_names.label_tag }} {{ form.guest_names }}</div>
+    <div>{{ form.invite.label_tag }} {{ form.invite }}</div>
+
+    <button type="submit">Submit</button>
+</form>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const choiceType = document.getElementById("id_attend");
+        const groupType = document.getElementById("id_group_type");
+        const numberGuests = document.getElementById("id_number_of_guests");
+        const guestNames = document.getElementById("id_guest_names");
+
+        const groupTypeDiv = groupType?.parentElement;
+        const guestsFieldDiv = numberGuests?.parentElement;
+        const guestNamesFieldDiv = guestNames?.parentElement;
+
+        function updateFormFields() {
+            const attending = choiceType.checked;
+
+            if (!attending) {
+                if (groupTypeDiv) groupTypeDiv.style.display = "none";
+                if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
+                if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
+                return;
             }
-    
-            // Run on page load to set correct field visibility
-            toggleFields();
-    
-            // Add event listener to the checkbox
-            var checkbox = document.getElementById("id_invitation");
-            if (checkbox) {
-                checkbox.addEventListener("change", toggleFields);
-            } else {
-                console.error("Checkbox 'id_invitation' not found.");
+
+            // If attending, show all fields
+            if (groupTypeDiv) groupTypeDiv.style.display = "block";
+            if (guestsFieldDiv) guestsFieldDiv.style.display = "block";
+            if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "block";
+
+            // Optional: Handle group_type auto-zero logic here if needed
+            if (groupType.value === "self" || groupType.value === "other") {
+                numberGuests.value = 0;
+                if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
+                if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
             }
-        });
-    </script>
-</head>
-<body>
-    <h2>Fill the Invitation Form</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Submit</button>
-    </form>
-</body>
-</html>
+        }
+
+        // Run on change and on load
+        choiceType.addEventListener("change", updateFormFields);
+        groupType.addEventListener("change", updateFormFields);
+        updateFormFields();
+    });
+</script>
 
 {% endblock %}

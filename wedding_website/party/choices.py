@@ -7,5 +7,5 @@ picks = (
 group_picks = [
     ('self', 'Just Myself'),
     ('family', 'Family'),
-    ('other', 'Other')
+    ('other', 'Family Friend')
 ]
