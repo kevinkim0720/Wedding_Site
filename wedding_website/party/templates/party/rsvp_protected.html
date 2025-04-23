@@ -8,39 +8,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitation Form</title>
     <script>
-        function toggleFields() {
-            var checkbox = document.getElementById("id_invitation");
-            var addressField = document.getElementById("id_address").parentElement;
-            var groupTypeField = document.getElementById("id_group_type").parentElement;
-            var guestsField = document.getElementById("id_number_of_guests").parentElement;
-            var cityField = document.getElementById("id_city").parentElement;
-            var stateField = document.getElementById("id_state").parentElement;
-            var zipCodeField = document.getElementById("id_zip_code").parentElement;
-            var guestnamesField = document.getElementById("id_guest_names").parentElement;
-
-            // Show/hide address, group type, city, state, and zip code fields based on invitation checkbox
-            if (checkbox.checked) {
-                addressField.style.display = "block";  // Show address field if invitation is checked
-                groupTypeField.style.display = "none";  // Show group type if invitation is checked
-                cityField.style.display = "block";  // Show city field if invitation is checked
-                stateField.style.display = "block";  // Show state field if invitation is checked
-                zipCodeField.style.display = "block";  // Show zip code field if invitation is checked
-                guestsField.style.display = "none";  // Hide number of guests if invitation is checked
-                guestnamesField.style.display = "none";
-            } else {
-                addressField.style.display = "none";  // Hide address if invitation is unchecked
-                groupTypeField.style.display = "block";  // Hide group type if invitation is unchecked
-                cityField.style.display = "none";  // Hide city field if invitation is unchecked
-                stateField.style.display = "none";  // Hide state field if invitation is unchecked
-                zipCodeField.style.display = "none";  // Hide zip code field if invitation is unchecked
-                guestsField.style.display = "block";  // Show number of guests if invitation is unchecked
-                guestnamesField.style.display = "block";
-            }
-        }
-
         document.addEventListener("DOMContentLoaded", function () {
-            toggleFields();  // Ensure the correct field is shown on page load
-            document.getElementById("id_invitation").addEventListener("change", toggleFields);
+            function toggleFields() {
+                var checkbox = document.getElementById("id_invitation");
+    
+                if (!checkbox) {
+                    console.error("Checkbox with ID 'id_invitation' not found!");
+                    return;
+                }
+    
+                var addressField = document.getElementById("id_address")?.parentElement;
+                var groupTypeField = document.getElementById("id_group_type")?.parentElement;
+                var guestsField = document.getElementById("id_number_of_guests")?.parentElement;
+                var cityField = document.getElementById("id_city")?.parentElement;
+                var stateField = document.getElementById("id_state")?.parentElement;
+                var zipCodeField = document.getElementById("id_zip_code")?.parentElement;
+                var guestnamesField = document.getElementById("id_guest_names")?.parentElement;
+                var checkbox2Field = document.getElementById("id_invite")?.parentElement; // Second checkbox
+    
+                function showElement(element) {
+                    if (element) element.style.display = "block";
+                }
+    
+                function hideElement(element) {
+                    if (element) element.style.display = "none";
+                }
+    
+                // Debugging: Log checkbox state
+                console.log("Checkbox checked:", checkbox.checked);
+    
+                if (checkbox.checked) {
+                    showElement(addressField);
+                    showElement(cityField);
+                    showElement(stateField);
+                    showElement(zipCodeField);
+                    hideElement(checkbox2Field); // Hide the second checkbox
+                    hideElement(groupTypeField);
+                    hideElement(guestsField);
+                    hideElement(guestnamesField);
+                } else {
+                    hideElement(addressField);
+                    hideElement(cityField);
+                    hideElement(stateField);
+                    hideElement(zipCodeField);
+                    showElement(checkbox2Field); // Show the second checkbox
+                    showElement(groupTypeField);
+                    showElement(guestsField);
+                    showElement(guestnamesField);
+                }
+            }
+    
+            // Run on page load to set correct field visibility
+            toggleFields();
+    
+            // Add event listener to the checkbox
+            var checkbox = document.getElementById("id_invitation");
+            if (checkbox) {
+                checkbox.addEventListener("change", toggleFields);
+            } else {
+                console.error("Checkbox 'id_invitation' not found.");
+            }
         });
     </script>
 </head>

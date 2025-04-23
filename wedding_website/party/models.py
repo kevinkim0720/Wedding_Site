@@ -74,6 +74,7 @@ class invitation_info(models.Model):
     group_type = models.CharField(max_length=20, choices=group_picks, null=True, blank=True)
     number_of_guests = models.IntegerField(null=True, blank=True)  # Number of guests (always required)
     guest_names = models.CharField(null=True, help_text= "Please provide all first and last names seperated by comma(s)")
+    invite = models.BooleanField(default=False, help_text="Do you want a physical invitation?")
     
     def __str__(self):
         return f"Invitation for {self.email}"

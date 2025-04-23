@@ -1,0 +1,82 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+        }
+        .faq {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .question {
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .answer {
+            display: none;
+            padding-top: 5px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>FAQ</h2>
+
+    <div class="faq">
+        <div class="question" onclick="toggleAnswer(this)">
+            What is the dress code? <span>+</span>
+        </div>
+        <div class="answer">
+            The dress code is formal attire. 
+        </div>
+    </div>
+
+    <div class="faq">
+        <div class="question" onclick="toggleAnswer(this)">
+            How long is the wedding? <span>+</span>
+        </div>
+        <div class="answer">
+            5pm - 10pm, but please arrive around 4:45pm
+        </div>
+    </div>
+
+    <div class="faq">
+        <div class="question" onclick="toggleAnswer(this)">
+            Other? <span>+</span>
+        </div>
+        <div class="answer">
+            Contact Kevin
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            let answer = element.nextElementSibling;
+            let symbol = element.querySelector("span");
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                symbol.textContent = "+";
+            } else {
+                answer.style.display = "block";
+                symbol.textContent = "-";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+
+{% endblock %}

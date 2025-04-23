@@ -1,0 +1,79 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+
+<title>Order of Events</title>
+    <style>
+        table {
+            width: 50%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 18px;
+            text-align: left;
+            
+        }
+        th, td {
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        th {
+            background-color: #f4f4f4;
+        }
+        .center {
+            margin-left: auto;
+            margin-right: auto;
+        }
+    </style>
+
+<body>
+<table class = 'center'>
+    <tr>
+        <th>Time</th>
+        <th>Event</th>
+    </tr>
+    <tr>
+        <td>4:45pm</td>
+        <td>Guest Arrival</td>
+    </tr>
+    <tr>
+        <td>5:00pm</td>
+        <td>Ceremony</td>
+    </tr>
+    <tr>
+        <td>5:30pm</td>
+        <td>Cocktail Hour</td>
+    </tr>
+    <tr>
+        <td>6:20pm</td>
+        <td>Find Seats</td>
+    </tr>
+    <tr>
+        <td>6:30pm</td>
+        <td>First Dance</td>
+    </tr>
+    <tr>
+        <td>6:50pm</td>
+        <td>Dinner and Toasts!</td>
+    </tr>
+    <tr>
+        <td>7:50pm</td>
+        <td>Cake Cutting</td>
+    </tr>
+    <tr>
+        <td>8:00pm</td>
+        <td>Party!!</td>
+    </tr>
+    <tr>
+        <td>9:00pm</td>
+        <td>Snack</td>
+    </tr>
+    <tr>
+        <td>10:30pm</td>
+        <td>Exit</td>
+    </tr>
+</table>
+<p>Schedule is subject to change</p>
+</body>
+
+
+{% endblock %}

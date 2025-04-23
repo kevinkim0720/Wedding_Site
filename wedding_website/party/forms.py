@@ -25,7 +25,7 @@ class EmailValidationForm(forms.Form):
 class RsvpForm(forms.ModelForm):
     class Meta:
         model = invitation_info
-        fields = ['invitation', 'address', 'city', 'state', 'zip_code', 'group_type', 'number_of_guests', 'guest_names']
+        fields = ['invitation', 'address', 'city', 'state', 'zip_code', 'group_type', 'number_of_guests', 'guest_names', 'invite']
 
 
     def clean(self):
@@ -38,6 +38,7 @@ class RsvpForm(forms.ModelForm):
         group_type = cleaned_data.get("group_type")
         number_of_guests = cleaned_data.get("number_of_guests")
         guest_names = cleaned_data.get("guest_names")
+        invite = cleaned_data.get("invite")
 
         if invitation and not address:
             raise forms.ValidationError("Address is required when Invitation is checked.")
