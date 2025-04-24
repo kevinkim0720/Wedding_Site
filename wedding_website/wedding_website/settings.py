@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-0gkow$d%*!$i0q=d^+-u&btx%nn$bs_*^%60s2e1tsztchucg7'
+SECRET_KEY = os.environ.get('DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -138,7 +138,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 CRISPY_TEMPLATE_PACK = "bootstrap4"
 
-AUTH_USER_MODEL = 'party.guestuser'
+AUTH_USER_MODEL = 'party.GuestUser'
 
 AUTHENTICATION_BACKENDS = [
     'party.backends.EmailAuthBackend',  # Add this line to use the custom backend
@@ -147,4 +147,4 @@ AUTHENTICATION_BACKENDS = [
 SESSION_COOKIE_AGE = 3600  # 1 hour session timeout
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Session ends when the browser is closed
 SESSION_SAVE_EVERY_REQUEST = True  # Extend session for active users
-LOGIN_URL = '/validation/'  # Redirect URL after session expires
+LOGIN_URL = '/admin/login/'

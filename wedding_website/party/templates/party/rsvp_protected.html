@@ -4,10 +4,14 @@
 <title>RSVP</title>
 
 <h2>RSVP Form</h2>
+
+<p>Please fill this out ASAP. We will stop receiving on August 10th, 2025</p>
+<p>(Reminder the date is September 20th, 2025)</p>
 <form method="post">
     {% csrf_token %}
     <div>{{ form.name.label_tag }} {{ form.name }}</div>
     <div>{{ form.attend.label_tag }} {{ form.attend }}</div>
+    <div>{{ form.party.label_tag }} {{ form.party }}</div>
     <div>{{ form.group_type.label_tag }} {{ form.group_type }}</div>
     <div>{{ form.number_of_guests.label_tag }} {{ form.number_of_guests }}</div>
     <div>{{ form.guest_names.label_tag }} {{ form.guest_names }}</div>
@@ -19,28 +23,36 @@
 <script>
     document.addEventListener("DOMContentLoaded", function () {
         const choiceType = document.getElementById("id_attend");
+        const partyChoiceType = document.getElementById("id_party");
         const groupType = document.getElementById("id_group_type");
         const numberGuests = document.getElementById("id_number_of_guests");
         const guestNames = document.getElementById("id_guest_names");
+        const invite = document.getElementById("id_invite");
 
+        const partyChoiceDiv = partyChoiceType?.parentElement;
         const groupTypeDiv = groupType?.parentElement;
         const guestsFieldDiv = numberGuests?.parentElement;
         const guestNamesFieldDiv = guestNames?.parentElement;
+        const inviteDiv = invite?.parentElement;
 
         function updateFormFields() {
             const attending = choiceType.checked;
 
             if (!attending) {
+                if (partyChoiceDiv) partyChoiceDiv.style.display = "none";
                 if (groupTypeDiv) groupTypeDiv.style.display = "none";
                 if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
                 if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
+                if (inviteDiv) inviteDiv.style.display = "none";
                 return;
             }
 
             // If attending, show all fields
+            if (partyChoiceDiv) partyChoiceDiv.style.display = "block";
             if (groupTypeDiv) groupTypeDiv.style.display = "block";
             if (guestsFieldDiv) guestsFieldDiv.style.display = "block";
             if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "block";
+            if (inviteDiv) inviteDiv.style.display = "block";
 
             // Optional: Handle group_type auto-zero logic here if needed
             if (groupType.value === "self" || groupType.value === "other") {

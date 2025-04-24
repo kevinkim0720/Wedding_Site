@@ -13,6 +13,7 @@ urlpatterns = [
     path("travel/", views.travel, name = "accommodations"),
     path("faq/", views.faq, name = "FAQ"),
     path('check-session/', views.check_session, name='check_session'),
+    path("force-logout/", views.force_logout, name="force_logout"),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

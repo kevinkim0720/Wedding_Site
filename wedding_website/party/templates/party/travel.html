@@ -2,6 +2,81 @@
 
 
 {% block content %}
-<title>Travel</title>
-<p>For those of you who need to book a hotel use this link</p>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px auto;
+        }
+        .accom {
+            border-bottom: 1px solid #ccc;
+            padding: 10px 0;
+        }
+        .question {
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+        }
+        .answer {
+            display: none;
+            padding-top: 5px;
+            color: #555;
+        }
+    </style>
+</head>
+<body>
+
+    <h2>Accommodations</h2>
+
+    <div class="accom">
+        <div class="question" onclick="toggleAnswer(this)">
+            Should I drive/carpool/uber there? <span>+</span>
+        </div>
+        <div class="answer">
+            If you are joining us for the after party, we encourage you to either carpool or uber to the venue. See the "After party?" answer for details.
+        </div>
+    </div>
+
+    <div class="accom">
+        <div class="question" onclick="toggleAnswer(this)">
+            Is there some place I can book for a night or two? <span>+</span>
+        </div>
+        <div class="answer">
+            The closest hotel (Hilton) is about 20-25 minutes away. <a href="https://www.hilton.com/">Click here to book</a>
+        </div>
+    </div>
+
+    <div class="accom">
+        <div class="question" onclick="toggleAnswer(this)">
+            After party? <span>+</span>
+        </div>
+        <div class="answer">
+            Because the closest hotel is about 25 minutes away, we decided to go with a party bus, if enough people join, to drive to Centreville/Annandale for round 2 (NRB or Pocha)
+        </div>
+    </div>
+
+    <script>
+        function toggleAnswer(element) {
+            let answer = element.nextElementSibling;
+            let symbol = element.querySelector("span");
+            
+            if (answer.style.display === "block") {
+                answer.style.display = "none";
+                symbol.textContent = "+";
+            } else {
+                answer.style.display = "block";
+                symbol.textContent = "-";
+            }
+        }
+    </script>
+
+</body>
+</html>
+
+
 {% endblock %}

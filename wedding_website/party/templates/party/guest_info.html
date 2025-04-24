@@ -1,13 +1,27 @@
 {% extends 'party/base.html' %}
 
 {% block content %}
+<title>Your Information</title>
 
 {% for message in messages %}
-        <div class="alert alert-danger">
-            <a class="close" href="#" data-dismiss="alert">x</a>
-                {{message}}
+    {% if message.tags == "error" %}
+        {% with "danger" as alert_type %}
+            <div class="alert alert-{{ alert_type }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        {% endwith %}
+    {% else %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
         </div>
-    {% endfor %}
+    {% endif %}
+{% endfor %}
 
 <div>
     <p>Hello! Please fill out this form to see our story, view the schedule, and rsvp online (if you want)</p>

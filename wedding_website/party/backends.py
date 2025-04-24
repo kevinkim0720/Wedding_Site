@@ -2,7 +2,7 @@
 
 from django.contrib.auth.backends import BaseBackend
 from django.core.exceptions import ObjectDoesNotExist
-from .models import guestuser
+from .models import GuestUser
 
 class EmailAuthBackend(BaseBackend):
     """
@@ -11,7 +11,7 @@ class EmailAuthBackend(BaseBackend):
     def authenticate(self, request, email=None):
         try:
             # Try to find the user by email
-            user = guestuser.objects.get(email=email)
+            user = GuestUser.objects.get(email=email)
             # You can add other logic for validation if needed
             if user.is_validated:
                 return user
@@ -22,6 +22,6 @@ class EmailAuthBackend(BaseBackend):
 
     def get_user(self, user_id):
         try:
-            return guestuser.objects.get(id=user_id)
+            return GuestUser.objects.get(id=user_id)
         except ObjectDoesNotExist:
             return None

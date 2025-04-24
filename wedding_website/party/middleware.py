@@ -1,8 +1,11 @@
 from django.shortcuts import redirect
 from django.conf import settings
 from django.urls import resolve
+from django.contrib import messages
 
-EXCLUDED_PATHS = ['/home/', '/', '/faq/', '/info_form/', '/validation/']
+GUEST_ALLOWED_PREFIXES = (
+    '/', '/home', '/faq', '/info_form', '/validation', '/check-session', '/favicon.ico', '/static', '/media'
+)
 
 class SessionTimeoutMiddleware:
     def __init__(self, get_response):
@@ -10,9 +13,11 @@ class SessionTimeoutMiddleware:
 
     def __call__(self, request):
         current_path = request.path
+        # print(f"🔍 Middleware hit: {current_path} | Authenticated: {request.user.is_authenticated}")
 
-        # If user is NOT authenticated and trying to access a PROTECTED page, redirect to validation
-        if not request.user.is_authenticated and current_path not in EXCLUDED_PATHS:
-            return redirect(settings.LOGIN_URL)  # Redirect to validation page
+        if not request.user.is_authenticated and not current_path.startswith(GUEST_ALLOWED_PREFIXES):
+            # print(f"⛔ Redirecting {current_path} to {settings.LOGIN_URL}")
+            messages.warning(request, "Session expired. Please validate again.")
+            return redirect('/validation/')
 
         return self.get_response(request)

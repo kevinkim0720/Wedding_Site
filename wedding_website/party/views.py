@@ -7,9 +7,11 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth import login as auth_login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import guestuser
+from .models import GuestUser
 from .decorators import require_validation
 import time
+import os
+import datetime
 
 User = get_user_model()
 
@@ -21,27 +23,68 @@ def home(request):
 
     return HttpResponse(template.render(context, request))
 
+def guest_information(request):
+    if request.method == "POST":
+        form = GuestInfoForm(request.POST)
+
+        if form.is_valid():
+            email = form.cleaned_data['email']
+            code = form.cleaned_data['code']
+            phone_number = form.cleaned_data['phone_number']
+
+            # Check for existing submission
+            if GuestUser.objects.filter(email=email).exists() or GuestUser.objects.filter(phone_number=phone_number).exists():
+                messages.error(request, "You've already submitted your information.")
+                return redirect('/home')
+            
+            if code == os.environ.get('WEBSITE_PASSWORD'):
+                GuestUser.objects.create(
+                first_name = form.cleaned_data['first_name'],
+                last_name = form.cleaned_data['last_name'],
+                email = email,
+                phone_number = phone_number,
+                knows = form.cleaned_data['knows'],
+                is_validated = True,
+                code = form.cleaned_data['code']
+                )
+
+                messages.success(request, "Welcome. Please log in")
+                return redirect('/home')
+            else:
+                messages.error(request, "Do we know you? Do you have the password?")
+        
+        else:
+            print(form.errors)
+            messages.error(request, "Something went wrong")
+
+    else:
+        form = GuestInfoForm()
+    
+    return render(request, 'party/guest_info.html', {'form': form})
+
 def validation(request):
     if request.user.is_authenticated:
-        # If the user is already logged in, check if validation expired
         last_validated = request.session.get("last_validated", None)
-        if last_validated and time.time() - last_validated <= 3600:  # 1 hour
-            return redirect('/home')  # If within 1 hour, go to home
-        
-        # If validation expired, logout and force revalidation
-        logout(request)
-        messages.warning(request, "Session expired. Please validate again.")
-        return redirect('/validation')
 
-    
+        if last_validated and time.time() - last_validated <= 3600:
+            # Session still valid
+            return redirect('/home')
+        else:
+            # Session expired — log out to force re-validation
+            logout(request)
+            request.session.flush()
+            messages.warning(request, "Session expired. Please validate again.")
+            return redirect('/validation/')  # Force reload of validation form
+
     if request.method == 'POST':
         email = request.POST.get("email")
         if email and User.objects.filter(email__iexact=email).exists():
-            user = User.objects.get(email = email)
+            user = User.objects.get(email=email)
 
             if user.is_validated:
                 request.session["last_validated"] = time.time()
                 auth_login(request, user)
+                request.session.set_expiry(0)  # Session expires on browser close
                 return redirect("/home")
             else:
                 messages.error(request, "Your email has not been validated yet.")
@@ -54,32 +97,15 @@ def validation(request):
     form = EmailValidationForm()
     return render(request, 'party/email_validation.html', {'form': form})
 
-def guest_information(request):
-    if request.method == "POST":
-        form = GuestInfoForm(request.POST)
+def force_logout(request):
+    logout(request)
+    request.session.flush()
+    print("✅ User logged out")
+    return redirect('/validation/')
 
-        if form.is_valid():
-            if form.cleaned_data['code'] == '9202025amykevin':
-                guestuser.objects.create(
-                first_name = form.cleaned_data['first_name'],
-                last_name = form.cleaned_data['last_name'],
-                email = form.cleaned_data['email'],
-                phone_number = form.cleaned_data['phone_number'],
-                knows = form.cleaned_data['knows'],
-                is_validated = True
-                )
-
-                messages.success(request, "Please wait a day to be verfied")
-                return redirect('/home')
-        
-        else:
-            print(form.errors)
-            messages.error(request, "Something went wrong")
-
-    else:
-        form = GuestInfoForm()
-    
-    return render(request, 'party/guest_info.html', {'form': form})
+def check_session(request):
+    # print("⚠️ check_session was hit! User authenticated:", request.user.is_authenticated)
+    return JsonResponse({'session_active': request.user.is_authenticated})
 
 # Cannot see story page unless email has been verified
 @require_validation
@@ -91,8 +117,12 @@ def story_protected(request):
 # Cannot see rsvp page unless email has been verified
 @require_validation
 def rsvp_protected(request):
-    if hasattr(request.user, 'invitations'):
+    if hasattr(request.user, 'invitation'):
         return render(request, 'party/already_submitted.html')  # Prevent duplicate
+    
+    current_date = datetime.date.today()
+    if current_date > datetime.date(2025, 8, 10):
+        return render(request, 'party/rsvp_closed.html')
     
     if request.method == 'POST':
         form = RsvpForm(request.POST)
@@ -105,7 +135,7 @@ def rsvp_protected(request):
             guest_names = form.cleaned_data.get('guest_names')
             invite = form.cleaned_data.get("invite")
             
-            user_email = guestuser.objects.get(email=email)
+            user_email = GuestUser.objects.get(email=email)
 
             invitation = form.save(commit=False)
             invitation.email = user_email
@@ -118,6 +148,7 @@ def rsvp_protected(request):
         form = RsvpForm()
     
     return render(request, 'party/rsvp_protected.html', {'form': form})
+
 
 # Cannot see schedule page unless email has been verified
 @require_validation
@@ -136,11 +167,6 @@ def faq(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-def check_session(request):
-    if request.user.is_authenticated:
-        return JsonResponse({'session_active': True})
-    else:
-        return JsonResponse({'session_active': False})
 
 @login_required
 def your_form_view(request):
