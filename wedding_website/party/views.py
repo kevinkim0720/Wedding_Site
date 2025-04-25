@@ -71,10 +71,7 @@ def validation(request):
             return redirect('/home')
         else:
             # Session expired — log out to force re-validation
-            logout(request)
-            request.session.flush()
-            messages.warning(request, "Session expired. Please validate again.")
-            return redirect('/validation/')  # Force reload of validation form
+            force_logout(request)
 
     if request.method == 'POST':
         email = request.POST.get("email")
@@ -101,6 +98,7 @@ def force_logout(request):
     logout(request)
     request.session.flush()
     print("✅ User logged out")
+    messages.warning(request, "Session expired. Please validate again.")
     return redirect('/validation/')
 
 def check_session(request):
@@ -117,7 +115,7 @@ def story_protected(request):
 # Cannot see rsvp page unless email has been verified
 @require_validation
 def rsvp_protected(request):
-    if hasattr(request.user, 'invitation'):
+    if request.user.invitation.exists():
         return render(request, 'party/already_submitted.html')  # Prevent duplicate
     
     current_date = datetime.date.today()
@@ -157,6 +155,7 @@ def schedule_protected(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
+@require_validation
 def travel(request):
     template = loader.get_template("party/travel.html")
     context = {}
