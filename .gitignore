@@ -1,0 +1,19 @@
+# Ignore Python artifacts
+*.pyc
+__pycache__/
+
+# Ignore Virtual Environment
+venv/
+
+# Ignore Django stuff
+db.sqlite3
+.env
+
+# Ignore staticfiles collected folder
+staticfiles/
+
+# Ignore media uploads (optional, depending on your project)
+media/
+
+# Ignore VSCode config (optional)
+.vscode/
