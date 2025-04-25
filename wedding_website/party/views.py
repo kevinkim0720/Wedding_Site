@@ -10,7 +10,7 @@ from django.contrib import messages
 from .models import GuestUser
 from .decorators import require_validation
 import time
-import os
+from decouple import config
 import datetime
 
 User = get_user_model()
@@ -37,7 +37,7 @@ def guest_information(request):
                 messages.error(request, "You've already submitted your information.")
                 return redirect('/home')
             
-            if code == os.environ.get('WEBSITE_PASSWORD'):
+            if code == config('WEBSITE_PASSWORD'):
                 GuestUser.objects.create(
                 first_name = form.cleaned_data['first_name'],
                 last_name = form.cleaned_data['last_name'],

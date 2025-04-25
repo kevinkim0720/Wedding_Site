@@ -12,9 +12,8 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
-from dotenv import load_dotenv
+from decouple import config, Csv
 
-load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,12 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('DJANGO_KEY')
+SECRET_KEY = config('DJANGO_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ["localhost", "ec2-3-87-42-207.compute-1.amazonaws.com", "ec2-3-222-23-236.compute-1.amazonaws.com", "*"]
+if DEBUG:
+    ALLOWED_HOSTS = ['*']  # For local testing only
+else:
+    ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 
 
 # Application definition
@@ -86,10 +88,10 @@ WSGI_APPLICATION = 'wedding_website.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': os.environ.get('POSTGRESQL_DB_NAME'),
-        'USER': os.environ.get('POSTGRESQL_DB_USER'),
-        'PASSWORD': os.environ.get('POSTGRESQL_DB_PASSWORD'),
-        'HOST': os.environ.get('POSTGRESQL_DB_HOST'),  # From RDS
+        'NAME': config('POSTGRESQL_DB_NAME'),
+        'USER': config('POSTGRESQL_DB_USER'),
+        'PASSWORD': config('POSTGRESQL_DB_PASSWORD'),
+        'HOST': config('POSTGRESQL_DB_HOST'),  # From RDS
         'PORT': '5432', 
     }
 }
