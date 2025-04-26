@@ -34,6 +34,12 @@ else:
     ALLOWED_HOSTS = config("ALLOWED_HOSTS", default="").split(",")
 
 
+CSRF_TRUSTED_ORIGINS = [
+    'https://amyandkevin920.com',
+    'https://www.amyandkevin920.com',
+]
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -154,3 +160,14 @@ SESSION_COOKIE_AGE = 3600  # 1 hour session timeout
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Session ends when the browser is closed
 SESSION_SAVE_EVERY_REQUEST = True  # Extend session for active users
 LOGIN_URL = '/admin/login/'
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+
+# Already good security settings for HTTPS
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+SECURE_HSTS_SECONDS = 3600
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
