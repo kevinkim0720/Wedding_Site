@@ -35,7 +35,8 @@ class RsvpForm(forms.ModelForm):
         labels = {
             'attend': 'Will Attend',
             'party': 'Planning on attending after party?',
-            'number_of_guests': 'Family size',
+            'number_of_guests': 'Family size (including yourself)',
+            'guest_names': 'Provide full names (excluding yourself)',
             'invite': 'Check for physical Invite if not received',
         }
 

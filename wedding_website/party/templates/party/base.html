@@ -1,89 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <style type="text/css">
-    nav ul {
-      list-style-type: none;
-      margin: 0;
-      overflow: hidden;
-      padding: 0;
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Amy & Kevin</title>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+
+  <style>
+    body {
+      background-color: #e7e7e9;
+      font-family: 'Georgia', serif;
+      position: relative;
+    }
+
+    h1.site-title {
+      font-family: 'Brush Script MT', cursive;
+      font-style: italic;
+      font-size: 100px;
+      color: #889bae;
       text-align: center;
-    }
-
-    nav li {
-      display: inline;
-    }
-
-    nav li a {
-      display: inline-block;
-      padding: 14px 16px;
-      font-size: 18px;
-      color: #7baff3;
-      text-decoration: none;
-    }
-
-    nav li a:hover {
-      color: #dfc753;
-    }
-
-    nav li a.active {
-      background-color: antiquewhite;
-    }
-
-    .main {
-      margin-left: 160px;
-      padding: 0px 10px;
-      background-color: #f3eed3;
+      margin: 40px 0 20px;
     }
 
     @media screen and (max-width: 600px) {
-      .topnav-centered a {
-        position: relative;
-        top: 0;
-        left: 0;
-        transform: none;
+      h1.site-title {
+        font-size: 60px;
+        margin: 30px 0 10px;
       }
     }
 
-    h1 {
+    nav.main-nav {
       text-align: center;
     }
 
-    /* Disabled link style */
+    nav.main-nav ul.nav-tabs {
+      list-style-type: none;
+      padding: 0;
+      display: inline-flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 0;
+      border-bottom: none;
+      box-shadow: none;
+    }
+
+    nav.main-nav ul.nav-tabs li a {
+      font-size: 18px;
+      padding: 10px 14px;
+      color: #889bae;
+      text-decoration: none;
+    }
+
+    nav.main-nav ul.nav-tabs li a:hover {
+      color: #dfc753;
+    }
+
+    nav.main-nav ul.nav-tabs li a.active {
+      background-color: antiquewhite;
+      border-radius: 6px;
+    }
+
     .disabled-link {
       pointer-events: none;
       opacity: 0.4;
       cursor: default;
     }
-  </style>
 
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+    /* Logout button at top right */
+    #logout-button-wrapper {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      z-index: 1000;
+    }
+
+    #logout-button-wrapper a {
+      font-size: 18px;
+      color: #7baff3;
+      text-decoration: none;
+    }
+
+    #logout-button-wrapper a:hover {
+      color: #dfc753;
+    }
+
+    @media screen and (max-width: 768px) {
+      #logout-button-wrapper {
+        top: 10px;
+        right: 15px;
+      }
+    }
+  </style>
 </head>
 
-<body style="background-color: #f3eed3;">
-  <div>
-    <h1 style="font-family: Brush Script MT; font-style: italic; font-size: 150px;">Amy and Kevin</h1>
+<body>
+  <!-- Header -->
+  <div class="container text-center">
+    <h1 class="site-title">Amy and Kevin</h1>
   </div>
 
-  <!-- navigation -->
+  <!-- Logout Button -->
+  <div id="logout-button-wrapper">
+    <a id="logout-button" href="*" class="disabled-link" title="Please validate to logout">Logout</a>
+  </div>
+
+  <!-- Navigation Tabs -->
   <nav class="main-nav">
-    <ul>
+    <ul class="nav-tabs">
       <li><a href="/">Welcome</a></li>
-      <!-- <li><a href="/kamy" class="protected-link">Our Story</a></li> -->
       <li><a href="/info_form" id="your-info-tab">Your Information</a></li>
-      <li><a href="/info" class="protected-link">Schedule</a></li>
-      <li><a href="/travel" class="protected-link">Accommodations</a></li>
       <li><a href="/rsvp" class="protected-link">RSVP</a></li>
+      <li><a href="/info" class="protected-link">Schedule</a></li>
+      <li><a href="/wedding_party" class="protected-link">Our Party</a></li>
+      <li><a href="/kamy" class="protected-link">Our Story</a></li>
+      <li><a href="/travel" class="protected-link">Accommodations</a></li>
       <li><a href="/faq">FAQ</a></li>
     </ul>
   </nav>
 
-  <!-- Page content -->
-  <div>
+  <!-- Page Content -->
+  <div class="container mt-4 mb-5">
     <div class="row justify-content-center">
-      <div class="col-8">
+      <div class="col-12 col-md-10 col-lg-8">
         <hr class="mt-0 mb-4">
         {% block content %}{% endblock %}
       </div>
@@ -102,25 +142,19 @@
       }
 
       const guestAllowedPaths = ["/", "/home", "/faq", "/info_form", "/validation"];
+      const links = document.querySelectorAll("a.protected-link");
+      const yourInfoTab = document.getElementById("your-info-tab");
+      const logoutButton = document.getElementById("logout-button");
 
       fetch("/check-session/")
         .then(response => response.json())
         .then(data => {
-          const links = document.querySelectorAll("a.protected-link");
-          const yourInfoTab = document.getElementById("your-info-tab");
-
-          console.log("Session active?", data.session_active);
-
           if (!data.session_active) {
-            console.log("⚠️ Session expired. Redirecting protected tabs...");
-
             links.forEach(link => {
               const path = normalizePath(new URL(link.href, window.location.origin).pathname);
-
               if (!guestAllowedPaths.includes(path)) {
                 link.addEventListener("click", function (e) {
                   e.preventDefault();
-                  console.log("🔁 Redirecting to /force-logout/ from", path);
                   window.location.href = "/force-logout/";
                 });
 
@@ -128,12 +162,24 @@
                 link.title = "Session expired. Please validate to access.";
               }
             });
+
+            if (logoutButton) {
+              logoutButton.classList.add("disabled-link");
+              logoutButton.removeAttribute("href");
+              logoutButton.title = "Please validate to logout.";
+            }
+
           } else {
-            // Session is active → disable "Your Information" tab
             if (yourInfoTab) {
               yourInfoTab.classList.add("disabled-link");
               yourInfoTab.removeAttribute("href");
               yourInfoTab.title = "You've already submitted your information.";
+            }
+
+            if (logoutButton) {
+              logoutButton.classList.remove("disabled-link");
+              logoutButton.href = "/force-logout";
+              logoutButton.title = "Logout";
             }
           }
         })

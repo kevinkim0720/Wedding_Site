@@ -17,3 +17,4 @@ media/
 
 # Ignore VSCode config (optional)
 .vscode/
+.env

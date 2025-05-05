@@ -1,13 +1,59 @@
 {% extends 'party/base.html' %}
 {% block content %}
 
-<title>RSVP</title>
+<style>
+  .rsvp-container {
+    font-family: 'Georgia', serif;
+    color: #3a2c1f;
+    padding: 40px 20px;
+    text-align: center;
+  }
 
-<h2>RSVP Form</h2>
+  .rsvp-container h1 {
+    font-size: 36px;
+    color: #889bae;
+    margin-bottom: 10px;
+    letter-spacing: 2px;
+  }
 
-<p>Please fill this out ASAP. We will stop receiving on August 10th, 2025</p>
-<p>(Reminder the date is September 20th, 2025)</p>
-<form method="post">
+  .rsvp-container p {
+    font-size: 18px;
+    margin: 5px 0 20px;
+  }
+
+  .rsvp-container form {
+    font-size: 14px;
+    max-width: 500px;
+    margin: 0 auto;
+    text-align: left;
+  }
+
+  .rsvp-container form div {
+    margin-bottom: 12px;
+  }
+
+  .rsvp-container button {
+    margin-top: 10px;
+    background-color: #889bae;
+    color: white;
+    border: none;
+    padding: 10px 16px;
+    cursor: pointer;
+    font-size: 14px;
+    border-radius: 4px;
+  }
+
+  .rsvp-container button:hover {
+    background-color: #6d7f94;
+  }
+</style>
+
+<div class="rsvp-container">
+  <h1>RSVP</h1>
+  <p>Please fill this out ASAP. We will stop receiving on August 10th, 2025</p>
+  <p>(Reminder the date is September 20th, 2025)</p>
+
+  <form method="post">
     {% csrf_token %}
     <div>{{ form.name.label_tag }} {{ form.name }}</div>
     <div>{{ form.attend.label_tag }} {{ form.attend }}</div>
@@ -18,55 +64,53 @@
     <div>{{ form.invite.label_tag }} {{ form.invite }}</div>
 
     <button type="submit">Submit</button>
-</form>
+  </form>
+</div>
 
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        const choiceType = document.getElementById("id_attend");
-        const partyChoiceType = document.getElementById("id_party");
-        const groupType = document.getElementById("id_group_type");
-        const numberGuests = document.getElementById("id_number_of_guests");
-        const guestNames = document.getElementById("id_guest_names");
-        const invite = document.getElementById("id_invite");
+  document.addEventListener("DOMContentLoaded", function () {
+    const choiceType = document.getElementById("id_attend");
+    const partyChoiceType = document.getElementById("id_party");
+    const groupType = document.getElementById("id_group_type");
+    const numberGuests = document.getElementById("id_number_of_guests");
+    const guestNames = document.getElementById("id_guest_names");
+    const invite = document.getElementById("id_invite");
 
-        const partyChoiceDiv = partyChoiceType?.parentElement;
-        const groupTypeDiv = groupType?.parentElement;
-        const guestsFieldDiv = numberGuests?.parentElement;
-        const guestNamesFieldDiv = guestNames?.parentElement;
-        const inviteDiv = invite?.parentElement;
+    const partyChoiceDiv = partyChoiceType?.parentElement;
+    const groupTypeDiv = groupType?.parentElement;
+    const guestsFieldDiv = numberGuests?.parentElement;
+    const guestNamesFieldDiv = guestNames?.parentElement;
+    const inviteDiv = invite?.parentElement;
 
-        function updateFormFields() {
-            const attending = choiceType.checked;
+    function updateFormFields() {
+      const attending = choiceType.checked;
 
-            if (!attending) {
-                if (partyChoiceDiv) partyChoiceDiv.style.display = "none";
-                if (groupTypeDiv) groupTypeDiv.style.display = "none";
-                if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
-                if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
-                if (inviteDiv) inviteDiv.style.display = "none";
-                return;
-            }
+      if (!attending) {
+        if (partyChoiceDiv) partyChoiceDiv.style.display = "none";
+        if (groupTypeDiv) groupTypeDiv.style.display = "none";
+        if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
+        if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
+        if (inviteDiv) inviteDiv.style.display = "none";
+        return;
+      }
 
-            // If attending, show all fields
-            if (partyChoiceDiv) partyChoiceDiv.style.display = "block";
-            if (groupTypeDiv) groupTypeDiv.style.display = "block";
-            if (guestsFieldDiv) guestsFieldDiv.style.display = "block";
-            if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "block";
-            if (inviteDiv) inviteDiv.style.display = "block";
+      if (partyChoiceDiv) partyChoiceDiv.style.display = "block";
+      if (groupTypeDiv) groupTypeDiv.style.display = "block";
+      if (guestsFieldDiv) guestsFieldDiv.style.display = "block";
+      if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "block";
+      if (inviteDiv) inviteDiv.style.display = "block";
 
-            // Optional: Handle group_type auto-zero logic here if needed
-            if (groupType.value === "self" || groupType.value === "other") {
-                numberGuests.value = 0;
-                if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
-                if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
-            }
-        }
+      if (groupType.value === "self" || groupType.value === "other") {
+        numberGuests.value = 0;
+        if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
+        if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
+      }
+    }
 
-        // Run on change and on load
-        choiceType.addEventListener("change", updateFormFields);
-        groupType.addEventListener("change", updateFormFields);
-        updateFormFields();
-    });
+    choiceType.addEventListener("change", updateFormFields);
+    groupType.addEventListener("change", updateFormFields);
+    updateFormFields();
+  });
 </script>
 
 {% endblock %}

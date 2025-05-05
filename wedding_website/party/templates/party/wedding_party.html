@@ -1,0 +1,186 @@
+{% extends 'party/base.html' %}
+
+{% block content %}
+
+<style>
+  .party-tabs-container {
+    font-family: 'Georgia', serif;
+    background-color: #e7e7e9;
+    padding: 40px 20px;
+    text-align: center;
+  }
+
+  .party-tabs-container h2 {
+    font-size: 36px;
+    color: #889bae;
+    margin-bottom: 10px;
+  }
+
+  .party-tabs-container p.subheading {
+    font-size: 16px;
+    color: #889bae;
+    margin-bottom: 30px;
+  }
+
+  .tab-toggle {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+  }
+
+  .tab-toggle label {
+    background: #e6e2ea;
+    padding: 12px 30px;
+    margin: 0 5px;
+    border-radius: 8px 8px 0 0;
+    cursor: pointer;
+    color: #889bae;
+    font-weight: bold;
+    transition: background 0.3s ease;
+  }
+
+  input[type="radio"] {
+    display: none;
+  }
+
+  input#tab-groomsmen:checked ~ .tab-toggle label[for="tab-groomsmen"],
+  input#tab-bridesmaids:checked ~ .tab-toggle label[for="tab-bridesmaids"] {
+    background-color: #f5f3f1;
+  }
+
+  .tab-content {
+    display: none;
+  }
+
+  input#tab-groomsmen:checked ~ .tab-content-container #groomsmen,
+  input#tab-bridesmaids:checked ~ .tab-content-container #bridesmaids {
+    display: block;
+  }
+
+  .tab-content-container {
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .people-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 30px;
+    margin-top: 20px;
+  }
+
+  .person-card {
+    background-color: #f5f3f1;
+    padding: 20px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+
+  .person-card img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-bottom: 10px;
+  }
+
+  .person-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #889bae;
+    margin: 10px 0 5px;
+  }
+
+  .person-bio {
+    font-size: 14px;
+    color: #5c3d2e;
+  }
+</style>
+
+<div class="party-tabs-container">
+  <h2>Wedding Party</h2>
+  <p class="subheading">Meet our lovely family and friends who will be by the side of the bride and groom on the big day.</p>
+
+<input type="radio" id="tab-groomsmen" name="party-tab" checked>
+<input type="radio" id="tab-bridesmaids" name="party-tab">
+
+  <div class="tab-toggle">
+    <label for="tab-groomsmen">Groomsmen</label>
+    <label for="tab-bridesmaids">Bridesmaids</label>
+  </div>
+
+{% load static %}
+  <div class="tab-content-container">
+    <div id="groomsmen" class="tab-content">
+      <div class="people-grid">
+        <div class="person-card">
+          <img src="party/jimmy.jpg" alt="Jimmy">
+          <div class="person-name">Jimmy</div>
+          <div class="person-bio">The "Best man". Met in high school, reconnected through employer, now here.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/marvin.jpg" alt="Marvin">
+          <div class="person-name">Marvin</div>
+          <div class="person-bio">Kevin's brother. </div>
+        </div>
+        <div class="person-card">
+          <img src="party/hansae.jpg" alt="Sam">
+          <div class="person-name">Sam</div>
+          <div class="person-bio">Friends since 4th grade. A fantastic musician.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/kyle.jpg" alt="JHK">
+          <div class="person-name">Kyle</div>
+          <div class="person-bio">A.K.A. JHK. Has an entrepreneur mindset.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/donghee.jpg" alt="David">
+          <div class="person-name">David</div>
+          <div class="person-bio">Army boy. Built different.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/sungjin.jpg" alt="Sungjin">
+          <div class="person-name">Sungjin</div>
+          <div class="person-bio">Gym bro. Double Kevin's muscle size.</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="bridesmaids" class="tab-content">
+      <div class="people-grid">
+        <div class="person-card">
+          <img src="party/christine.jpg" alt="Christine">
+          <div class="person-name">Christine</div>
+          <div class="person-bio">Long-time friend. She will be by Amy's side as her Matron of Honor.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/gina.jpg" alt="Gina">
+          <div class="person-name">Gina</div>
+          <div class="person-bio">Fellow nurse.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/anna.jpg" alt="Anna">
+          <div class="person-name">Anna</div>
+          <div class="person-bio">Amy's sister 1.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/arlene.jpg" alt="Arlene">
+          <div class="person-name">Arlene</div>
+          <div class="person-bio">Amy's sister 2.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/sarah.jpg" alt="Sarah">
+          <div class="person-name">Sarah</div>
+          <div class="person-bio">A dancer.</div>
+        </div>
+        <div class="person-card">
+          <img src="party/julie.jpg" alt="Julie">
+          <div class="person-name">Julie</div>
+          <div class="person-bio">Kevin's sister.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

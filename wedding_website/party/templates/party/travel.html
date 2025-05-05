@@ -1,82 +1,88 @@
 {% extends 'party/base.html' %}
 
-
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Info</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 20px auto;
-        }
-        .accom {
-            border-bottom: 1px solid #ccc;
-            padding: 10px 0;
-        }
-        .question {
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            justify-content: space-between;
-        }
-        .answer {
-            display: none;
-            padding-top: 5px;
-            color: #555;
-        }
-    </style>
-</head>
-<body>
+<style>
+  .accom-container {
+    font-family: 'Georgia', serif;
+    color: #3a2c1f;
+    padding: 40px 20px;
+    text-align: center;
+  }
 
-    <h2>Accommodations</h2>
+  .accom-container h2 {
+    font-size: 36px;
+    color: #889bae;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+  }
 
-    <div class="accom">
-        <div class="question" onclick="toggleAnswer(this)">
-            Should I drive/carpool/uber there? <span>+</span>
-        </div>
-        <div class="answer">
-            If you are joining us for the after party, we encourage you to either carpool or uber to the venue. See the "After party?" answer for details.
-        </div>
+  .accom {
+    border-bottom: 1px solid #ccc;
+    padding: 15px 0;
+    text-align: left;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .question {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    font-size: 18px;
+    color: #889bae;
+  }
+
+  .answer {
+    display: none;
+    padding-top: 8px;
+    color: #555;
+    font-size: 16px;
+  }
+</style>
+
+<div class="accom-container">
+  <h2>ACCOMMODATIONS</h2>
+
+  <div class="accom">
+    <div class="question" onclick="toggleAnswer(this)">
+      Should I drive/carpool/uber there? <span>+</span>
     </div>
-
-    <div class="accom">
-        <div class="question" onclick="toggleAnswer(this)">
-            Is there some place I can book for a night or two? <span>+</span>
-        </div>
-        <div class="answer">
-            The closest hotel (Hilton) is about 20-25 minutes away. <a href="https://www.hilton.com/">Click here to book</a>
-        </div>
+    <div class="answer">
+      If you are joining us for the after party, we encourage you to either carpool or uber to the venue. See the "After party?" answer for details.
     </div>
+  </div>
 
-    <div class="accom">
-        <div class="question" onclick="toggleAnswer(this)">
-            After party? <span>+</span>
-        </div>
-        <div class="answer">
-            Because the closest hotel is about 25 minutes away, we decided to go with a party bus, if enough people join, to drive to Centreville/Annandale for round 2 (NRB or Pocha)
-        </div>
+  <div class="accom">
+    <div class="question" onclick="toggleAnswer(this)">
+      Is there some place I can book for a night or two? <span>+</span>
     </div>
+    <div class="answer">
+      The closest hotel (Hilton) is about 20–25 minutes away. <a href="https://www.hilton.com/" target="_blank" rel="noopener noreferrer">Click here to book.</a>
+    </div>
+  </div>
 
-    <script>
-        function toggleAnswer(element) {
-            let answer = element.nextElementSibling;
-            let symbol = element.querySelector("span");
-            
-            if (answer.style.display === "block") {
-                answer.style.display = "none";
-                symbol.textContent = "+";
-            } else {
-                answer.style.display = "block";
-                symbol.textContent = "-";
-            }
-        }
-    </script>
+  <div class="accom">
+    <div class="question" onclick="toggleAnswer(this)">
+      After party? <span>+</span>
+    </div>
+    <div class="answer">
+      Because the closest hotel is about 25 minutes away, we decided to go with a party bus (if enough people join) to drive to Centreville/Annandale for the after party.
+    </div>
+  </div>
+</div>
 
-</body>
-</html>
+<script>
+  function toggleAnswer(element) {
+    let answer = element.nextElementSibling;
+    let symbol = element.querySelector("span");
 
-
+    if (answer.style.display === "block") {
+      answer.style.display = "none";
+      symbol.textContent = "+";
+    } else {
+      answer.style.display = "block";
+      symbol.textContent = "-";
+    }
+  }
+</script>
 {% endblock %}

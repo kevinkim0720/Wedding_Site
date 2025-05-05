@@ -3,102 +3,100 @@
 {% block content %}
 {% load static %}
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Our Story</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
+<style>
+  .story-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    max-width: 1400px;
+    width: 100%;
+    padding: 40px 20px;
+    margin: 0 auto;
+    font-family: 'Georgia', serif;
+    color: #3a2c1f;
+  }
 
-        /* Main container */
-        .container {
-            display: grid;
-            grid-template-columns: 1fr 1fr; /* Two columns */
-            gap: 20px;
-            max-width: 2000px;
-            width: 100%;
-            padding: 20px;
-        }
+  .story-container h1 {
+    text-align: center;
+    font-size: 36px;
+    color: #889bae;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+    grid-column: 1 / -1;
+  }
 
-        /* Left side (Image) */
-        .left {
-            background-image: url("{% static 'party/media/first_date.jpg' %}"); /* Replace with your image */
-            background-size: cover;
-            background-position: center;
-            height: 400px;
-            width: 90%;
-        }
+  .story-container .left {
+    background-image: url("{% static 'party/first_date.jpg' %}");
+    background-size: cover;
+    background-position: center;
+    height: 400px;
+    width: 100%;
+    border-radius: 10px;
+  }
 
-        /* Right side (Text) */
-        .right {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            padding: 20px;
-        }
+  .story-container .right {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 20px;
+  }
 
-        /* Bottom image grid */
-        .bottom-images {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 10px;
-            max-width: 1200px;
-            width: 100%;
-            margin-top: 20px;
-            padding: 20px;
-        }
+  .story-container .right p {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+  }
 
-        .bottom-images img {
-            width: 100%;
-            height: 400px;
-            object-fit: cover;
-            border-radius: 10px;
-        }
+  .bottom-images {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    max-width: 1200px;
+    width: 100%;
+    margin: 40px auto;
+    padding: 20px;
+  }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .container {
-                grid-template-columns: 1fr; /* Stack on smaller screens */
-            }
+  .bottom-images img {
+    width: 100%;
+    height: 400px;
+    object-fit: cover;
+    border-radius: 10px;
+  }
 
-            .left {
-                height: 250px; /* Adjust height for smaller screens */
-            }
-        }
-    </style>
-</head>
+  @media (max-width: 900px) {
+      .bottom-images {
+    grid-template-columns: 1fr 1fr;
+  }
+}
 
-<h1>About Us</h1>
-<body>
-    <div class="container">
-        <div class="left"> </div>
-        <div class="right">
-<p style="text-align: center;">
-    Amy and Kevin were both members and served for Agape Christian Fellowship (ACF) at JMU. One day, Kevin decided to courageously ask Amy. He was rejected at first, but Amy gave him a chance to get to know him better.
-    
-    <br><br>After months of talking and hanging out, she decided to give him a chance thus their relationship started in March 2019. As they continued to date and do life together, their bond grew more and more. They shared amazing adventures, lots of laughter and love, and unforgetable moments.
-    
-    <br><br>After 5 years of dating, Kevin asked THE question, and Amy said YES! Blessed and filled with joy, they can't wait to start their next chapter as Husband and Wife
-</p>
-</div>
-</div>
+@media (max-width: 600px) {
+  .bottom-images {
+    grid-template-columns: 1fr;
+  }
+}
+</style>
 
-<div  class = 'bottom-images' style="text-align: center;">
-    {% load static %} 
-    <img src='{% static 'party/grad.jpg' %}' style="vertical-align:middle" alt="bottom1" />
-    <img src='{% static 'party/propose.jpg' %}' style="vertical-align:middle" alt="bottom2" />
-    <img src='{% static 'party/ring.jpg' %}' style="vertical-align:middle" alt="bottom3" />
+<div class="story-container">
+  <h1>Our Story</h1>
+
+  <div class="left"></div>
+
+  <div class="right">
+    <p>
+      Amy and Kevin were both members and served at Agape Christian Fellowship (ACF) at JMU. One day, Kevin courageously asked Amy out... and was rejected!
+      <br><br>
+      After months of talking and hanging out, she gave him a chance — their relationship officially began in March 2019. Over the years, they grew in faith, love, and partnership.
+      <br><br>
+      After 5 years of dating, Kevin asked THE question, and Amy said YES!
+    </p>
+  </div>
 </div>
 
-
-</body>
+<div class="bottom-images">
+  <img src="{% static 'party/grad.jpg' %}" alt="Graduation photo" />
+  <img src="{% static 'party/propose.jpg' %}" alt="Proposal photo" />
+  <img src="{% static 'party/ring.jpg' %}" alt="Engagement ring" />
+</div>
 
 {% endblock %}

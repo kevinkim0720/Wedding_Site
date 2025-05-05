@@ -22,19 +22,23 @@
         </div>
     {% endif %}
 {% endfor %}
-
-    <h1 style="font-family: 'Times New Roman', Times, serif; font-style: italic;">Welcome!</h1>
+    <div class="container text-center">
+      <h1 style="font-family: 'Times New Roman', Times, serif; font-style: italic; font-size: 36px; color: #889bae;">Welcome!</h1>
+    </div>
 
     <hr> 
-    <pre style="text-align: center;">Welcome to our website! We are glad to have you guys join us for our big day!
+    <pre style="text-align: center; color: #889bae;">Welcome to our website! We are glad to have you guys join us for our big day!
 
-Please fill out an information form, so you can view other information
+Please fill out an information form, so you can view the whole website.
 (if filled out already: <a href="/validation">click here to view other tabs</a>)
     </pre>
-    <div style="text-align: center;">
-        {% load static %} 
-<img src='{% static 'party/save-the-date-pic.jpg' %}' width="400px" style="vertical-align:middle" alt="home" />
-<img src='{% static 'party/hug-pic.jpg' %}' width="400px" style="vertical-align:middle" alt="home" />
-    </div>
+
+{% load static %}
+
+<div style="display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 20px;">
+  <img src="{% static 'party/save-the-date-pic.jpg' %}" style="width: 100%; max-width: 300px; height: auto;" alt="Save the Date">
+  <img src="{% static 'party/hug-pic.jpg' %}" style="width: 100%; max-width: 300px; height: auto;" alt="Hug">
+</div>
+
 
 {% endblock %}

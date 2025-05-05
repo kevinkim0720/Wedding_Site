@@ -2,66 +2,73 @@
 
 {% block content %}
 
-<title>Order of Events</title>
-    <style>
-        table {
-            width: 50%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 18px;
-            text-align: left;
-            
-        }
-        th, td {
-            padding: 12px;
-            border: 1px solid #ddd;
-        }
-        th {
-            background-color: #f4f4f4;
-        }
-        .center {
-            margin-left: auto;
-            margin-right: auto;
-        }
-    </style>
+<title>Wedding Timeline</title>
+<style>
+  .wedding-timeline-container {
+    font-family: 'Georgia', serif;
+    color: #3a2c1f;
+    padding: 40px 20px;
+    text-align: center;
+  }
 
-<body>
-<table class = 'center'>
-    <tr>
-        <th>Time</th>
-        <th>Event</th>
-    </tr>
-    <tr>
-        <td>4:45pm</td>
-        <td>Guest Arrival</td>
-    </tr>
-    <tr>
-        <td>5:00pm</td>
-        <td>Ceremony</td>
-    </tr>
-    <tr>
-        <td>5:30pm</td>
-        <td>Cocktail Hour</td>
-    </tr>
-    <tr>
-        <td>6:50pm</td>
-        <td>Dinner and Toasts!</td>
-    </tr>
-    <tr>
-        <td>8:00pm</td>
-        <td>Party!!</td>
-    </tr>
-    <tr>
-        <td>9:00pm</td>
-        <td>Snack</td>
-    </tr>
-    <tr>
-        <td>10:30pm</td>
-        <td>Exit Venue. Maybe Round 2?</td>
-    </tr>
-</table>
-<p>Schedule is subject to change</p>
-</body>
+  .wedding-timeline-container h2 {
+    font-size: 36px;
+    color: #889bae;
+    margin-bottom: 40px;
+    letter-spacing: 2px;
+  }
+
+  .timeline {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+  }
+
+  .timeline-row {
+    display: flex;
+    align-items: center;
+    font-size: 20px;
+    line-height: 1.6;
+  }
+
+  .timeline-time {
+    width: 110px;
+    font-weight: bold;
+    color: #2e1e12;
+    text-align: right;
+  }
+
+  .timeline-divider {
+    margin: 0 16px;
+    color: #d0bfa8;
+    font-weight: bold;
+  }
+
+  .timeline-event {
+    flex: 1;
+    color: #442f24;
+    text-align: left;
+  }
+</style>
+
+<div class="wedding-timeline-container">
+  <h2>WEDDING TIMELINE</h2>
+  <div class="timeline">
+    <div class="timeline-row"><span class="timeline-time">4:45 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🚪 Guest Arrival</span></div>
+    <div class="timeline-row"><span class="timeline-time">5:00 PM</span><span class="timeline-divider">|</span><span class="timeline-event">💍 Wedding Ceremony</span></div>
+    <div class="timeline-row"><span class="timeline-time">5:30 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🍸 Cocktail Hour</span></div>
+    <div class="timeline-row"><span class="timeline-time">6:50 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🍽️ Dinner</span></div>
+    <div class="timeline-row"><span class="timeline-time">8:00 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🎶 Reception</span></div>
+    <div class="timeline-row"><span class="timeline-time">10:30 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🚪 Exit Venue</span></div>
+    <div class="timeline-row"><span class="timeline-time">10:30 PM</span><span class="timeline-divider">|</span><span class="timeline-event">🎉 After Party</span></div>
+  </div>
+</div>
+
+ <div class="disclaimer">
+    *Schedule is subject to change
+  </div>
+</div>
 
 
 {% endblock %}

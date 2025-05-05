@@ -107,11 +107,11 @@ def check_session(request):
 
 # Not needed
 # # Cannot see story page unless email has been verified
-# @require_validation
-# def story_protected(request):
-#     template = loader.get_template("party/story.html")
-#     context = {}
-#     return HttpResponse(template.render(context, request))
+@require_validation
+def story_protected(request):    
+     template = loader.get_template("party/story.html")
+     context = {}
+     return HttpResponse(template.render(context, request))
 
 # Cannot see rsvp page unless email has been verified
 @require_validation
@@ -161,6 +161,13 @@ def travel(request):
     template = loader.get_template("party/travel.html")
     context = {}
     return HttpResponse(template.render(context, request))
+
+@require_validation
+def party_protected(request):    
+     template = loader.get_template("party/wedding_party.html")
+     context = {}
+     return HttpResponse(template.render(context, request))
+
 
 def faq(request):
     template = loader.get_template("party/faq.html")

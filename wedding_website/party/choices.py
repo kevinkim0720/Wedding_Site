@@ -6,6 +6,7 @@ picks = (
 
 group_picks = [
     ('self', 'Just Myself'),
+    ('couple', 'My Spouse and I'),
     ('family', 'Family'),
     ('other', 'Family Friend')
 ]
