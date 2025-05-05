@@ -9,9 +9,6 @@ venv/
 db.sqlite3
 .env
 
-# Ignore staticfiles collected folder
-staticfiles/
-
 # Ignore media uploads (optional, depending on your project)
 media/
 
