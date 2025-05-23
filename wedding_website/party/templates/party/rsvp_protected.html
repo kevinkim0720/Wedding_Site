@@ -100,10 +100,13 @@
       if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "block";
       if (inviteDiv) inviteDiv.style.display = "block";
 
-      if (groupType.value === "self" || groupType.value === "other") {
+      if (groupType.value === "self") {
         numberGuests.value = 0;
         if (guestsFieldDiv) guestsFieldDiv.style.display = "none";
         if (guestNamesFieldDiv) guestNamesFieldDiv.style.display = "none";
+      }
+      if (groupType.value === "couple"){
+        numberGuests.value = 2;
       }
     }
 
