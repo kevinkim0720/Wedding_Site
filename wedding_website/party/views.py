@@ -99,7 +99,7 @@ def force_logout(request):
     request.session.flush()
     print("✅ User logged out")
     messages.warning(request, "Session expired. Please validate again.")
-    return redirect('/validation/')
+    return redirect('/home/')
 
 def check_session(request):
     # print("⚠️ check_session was hit! User authenticated:", request.user.is_authenticated)
@@ -144,7 +144,11 @@ def rsvp_protected(request):
             return render(request, "party/success.html")
         
     else:
-        form = RsvpForm()
+        initial_data = {}
+        if request.user.is_authenticated:
+            full_name = f"{request.user.first_name} {request.user.last_name}"
+            initial_data['name'] = full_name.strip()
+        form = RsvpForm(initial=initial_data)
     
     return render(request, 'party/rsvp_protected.html', {'form': form})
 

@@ -37,7 +37,7 @@ class RsvpForm(forms.ModelForm):
             'party': 'Planning on attending after party?',
             'number_of_guests': 'Family size (including yourself)',
             'guest_names': 'Provide full names (excluding yourself)',
-            'invite': 'Check for physical Invite if not received',
+            'invite': 'Check for physical invitation if not received',
         }
 
 
